@@ -5,28 +5,19 @@ require 'game_of_life/cell'
 describe LivingCell, '#stays_alive?' do
   let(:cell) { LivingCell.create(location: double(:location)) }
 
-  context 'when there are less than 2 live neighbors' do
-    it 'returns false' do
-      [0, 1].each do |count|
-        allow(cell).to receive(:living_neighbors) { double(count: count) }
-        expect(cell).not_to be_stays_alive
-      end
+  subject { cell.stays_alive?(count) }
+
+  [2, 3].each do |count|
+    context "when the neighbor count is #{count}" do
+      let(:count) { count }
+      it { should be true }
     end
   end
 
-  context 'when there are 2 or 3 live neighbors' do
-    it 'returns true' do
-      [2, 3].each do |count|
-        allow(cell).to receive(:living_neighbors) { double(count: count) }
-        expect(cell).to be_stays_alive
-      end
-    end
-  end
-
-  context 'when there are more than 3 live neighbors' do
-    it 'returns false' do
-      allow(cell).to receive(:living_neighbors) { double(count: 4) }
-      expect(cell).not_to be_stays_alive
+  [0, 1, 4, 5, 6, 7, 8].each do |count|
+    context "when the neighbor count is #{count}" do
+      let(:count) { count }
+      it { should be false }
     end
   end
 end
@@ -34,15 +25,17 @@ end
 describe DeadCell, '#comes_to_life?' do
   let(:cell) { DeadCell.create(location: double(:location)) }
 
-  it 'returns true for exactly 3 live neighbors' do
-    allow(cell).to receive(:living_neighbors) { double(count: 3) }
-    expect(cell).to be_comes_to_life
+  subject { cell.comes_to_life?(count) }
+
+  context 'when the count is 3' do
+    let(:count) { 3 }
+    it { should be true }
   end
 
-  it 'returns false for other counts of live neighbors' do
-    [0, 1, 2, 4].each do |count|
-      allow(cell).to receive(:living_neighbors) { double(count: count) }
-      expect(cell).not_to be_comes_to_life
+  [0, 1, 2, 4, 5, 6, 7, 8].each do |count|
+    context "when the count is #{count}" do
+      let(:count) { count }
+      it { should be false }
     end
   end
 end

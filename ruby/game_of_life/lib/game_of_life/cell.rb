@@ -29,13 +29,8 @@ class DeadCell
 
   FERTILE_POPULATION = 3
 
-  def comes_to_life?
-    fertile_for_birth?
-  end
-
-  private
-  def fertile_for_birth?
-    living_neighbors.count == FERTILE_POPULATION
+  def comes_to_life?(neighbor_count)
+    neighbor_count == FERTILE_POPULATION
   end
 end
 
@@ -46,12 +41,7 @@ class LivingCell
   MIN_POPULATION = 2
   MAX_POPULATION = 3
 
-  def stays_alive?
-    stable_living_conditions?
-  end
-
-  private
-  def stable_living_conditions?
-    (MIN_POPULATION..MAX_POPULATION).include?(living_neighbors.count)
+  def stays_alive?(neighbor_count)
+    (MIN_POPULATION..MAX_POPULATION).include?(neighbor_count)
   end
 end

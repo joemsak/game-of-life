@@ -13,7 +13,7 @@ module GameOfLife
     end
 
     def set_living_at(location)
-      living_cells << Cell.alive(location: location)
+      living_cells << LivingCell.create(location: location)
     end
 
     def alive_at?(location)
