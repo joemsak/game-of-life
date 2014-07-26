@@ -1,42 +1,57 @@
-class Cell
-  MIN_POPULATION = 2
-  MAX_POPULATION = 3
-  FERTILE_POPULATION = 3
+module HasLocation
+  def self.included(base)
+    base.send(:attr_accessor, :location)
+  end
+end
 
-  attr_accessor :location, :alive
+module CreatesWithAttributes
+  def self.included(base)
+    base.extend(ClassMethods)
+  end
 
-  def alive_in_next_generation?
-    if alive
-      stable_living_conditions?
-    else
-      fertile_for_birth?
+  module ClassMethods
+    def create(attrs = {})
+      instance = new
+      set_attributes(instance, attrs)
+      instance
+    end
+
+    private
+    def set_attributes(instance, attrs)
+      attrs.each { |k, v| instance.send("#{k}=", v) }
     end
   end
+end
 
-  def self.alive(attrs = {})
-    cell = new
-    cell.alive = true
-    set_attributes(cell, attrs)
-    cell
+class DeadCell
+  include HasLocation
+  include CreatesWithAttributes
+
+  FERTILE_POPULATION = 3
+
+  def comes_to_life?
+    fertile_for_birth?
   end
 
-  def self.dead(attrs = {})
-    cell = new
-    cell.alive = false
-    set_attributes(cell, attrs)
-    cell
+  private
+  def fertile_for_birth?
+    living_neighbors.count == FERTILE_POPULATION
+  end
+end
+
+class LivingCell
+  include HasLocation
+  include CreatesWithAttributes
+
+  MIN_POPULATION = 2
+  MAX_POPULATION = 3
+
+  def stays_alive?
+    stable_living_conditions?
   end
 
   private
   def stable_living_conditions?
     (MIN_POPULATION..MAX_POPULATION).include?(living_neighbors.count)
-  end
-
-  def fertile_for_birth?
-    living_neighbors.count == FERTILE_POPULATION
-  end
-
-  def self.set_attributes(cell, attrs)
-    attrs.each { |k, v| cell.send("#{k}=", v) }
   end
 end
