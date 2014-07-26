@@ -1,9 +1,11 @@
 module GameOfLife
   class World
-    attr_reader :living_cells
+    attr_accessor :living_cells
 
-    def initialize
-      @living_cells = []
+    def self.empty
+      world = new
+      world.living_cells = []
+      world
     end
 
     def empty?
