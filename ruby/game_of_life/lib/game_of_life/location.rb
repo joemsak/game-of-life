@@ -7,9 +7,9 @@ module GameOfLife
       @y = y
     end
 
-    def self.create(options)
-      location = new(options[:x], options[:y])
-      location.cell = if options[:life]
+    def self.create(attrs)
+      location = new(attrs[:x], attrs[:y])
+      location.cell = if attrs[:life]
         LivingCell.new
       else
         DeadCell.new
