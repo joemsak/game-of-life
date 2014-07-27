@@ -1,9 +1,14 @@
 module GameOfLife
   class Location
-    attr_accessor :cell
+    attr_accessor :cell, :x, :y
+
+    def initialize(x, y)
+      @x = x
+      @y = y
+    end
 
     def self.create(options)
-      location = new
+      location = new(options[:x], options[:y])
       location.cell = if options[:life]
         LivingCell.new
       else
@@ -25,6 +30,11 @@ module GameOfLife
 
     def has_life?
       cell.alive?
+    end
+
+    def living_neighbor?(other)
+      [x - 1, x, x + 1].include?(other.x) &&
+        [y - 1, y, y + 1].include?(other.y)
     end
   end
 

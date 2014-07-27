@@ -3,6 +3,21 @@ require 'spec_helper'
 require 'game_of_life/location'
 
 module GameOfLife
+  describe Location, '#living_neighbor?' do
+    let(:location) { Location.create(x: 1, y: 1) }
+
+    subject { other.living_neighbor?(location) }
+
+    [{ x: 0, y: 2 }, { x: 1, y: 2 }, { x: 2, y: 2 },
+     { x: 0, y: 1 },                 { x: 2, y: 1 },
+     { x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 0 }].each do |attrs|
+      context "when the other's cooridinates are #{attrs}" do
+        let(:other) { Location.create(attrs) }
+        it { should be true }
+      end
+    end
+  end
+
   describe Location, '#evolve' do
     let(:options) { {} }
     let(:neighbor_count) { double(Integer) }
@@ -19,7 +34,7 @@ module GameOfLife
       let(:options) { { life: true } }
 
       context 'and the cell is staying alive' do
-        let(:neighbor_count) { LivingCell::MIN_POPULATION }
+        let(:neighbor_count) { LivingCell::MAX_POPULATION }
         it { should have_life }
       end
 
