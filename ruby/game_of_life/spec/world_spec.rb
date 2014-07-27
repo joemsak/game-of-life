@@ -24,14 +24,6 @@ module GameOfLife
       world.locations.each { |location| expect(location).to receive(:evolve) }
       world.tick
     end
-
-    it "updates each location in the collection" do
-      world = World.seed(double.as_null_object)
-      world.locations.each do |location|
-        expect(world).to receive(:set_coordinate).with(location)
-      end
-      world.tick
-    end
   end
 
   describe World, '#set_coordinate' do
@@ -46,17 +38,6 @@ module GameOfLife
       it "adds to the locations collection" do
         world.set_coordinate(location)
         expect(world.locations.count).to be 1
-      end
-
-      context 'and the location is in the collection' do
-        it 'replaces the existing element in the collection' do
-          location = double(:location)
-          world.locations = [location]
-
-          expect(world.locations).to receive(:[]=).with(0, location)
-
-          world.set_coordinate(location)
-        end
       end
     end
   end

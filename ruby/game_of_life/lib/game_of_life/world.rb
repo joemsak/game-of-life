@@ -17,7 +17,6 @@ module GameOfLife
     def tick
       locations.each do |location|
         location.evolve
-        set_coordinate(location)
       end
       self
     end
@@ -27,11 +26,7 @@ module GameOfLife
     end
 
     def set_coordinate(location)
-      if index = locations.index(location)
-        locations[index] = location
-      else
-        locations << location
-      end
+      locations << location
       self
     end
 
