@@ -1,5 +1,12 @@
 module GameOfLife
   class Location
+    def self.create(options)
+      if options[:alive]
+        LivingCell.create(options)
+      else
+        DeadCell.create(options)
+      end
+    end
   end
 
   module HasLocation
@@ -41,6 +48,8 @@ module GameOfLife
   class LivingCell
     include HasLocation
     include CreatesWithAttributes
+
+    attr_accessor :alive
 
     MIN_POPULATION = 2
     MAX_POPULATION = 3
