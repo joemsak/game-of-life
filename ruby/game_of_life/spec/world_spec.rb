@@ -1,6 +1,5 @@
 require 'spec_helper'
 
-require 'game_of_life/location'
 require 'game_of_life/world'
 
 module GameOfLife
