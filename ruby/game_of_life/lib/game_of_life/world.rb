@@ -12,8 +12,9 @@ module GameOfLife
       living_cells.count == 0
     end
 
-    def set_living_at(location)
+    def set_coordinate(location, otions = {})
       living_cells << LivingCell.create(location: location)
+      self
     end
 
     def alive_at?(location)

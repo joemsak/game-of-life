@@ -11,28 +11,24 @@ module GameOfLife
     end
   end
 
-  describe World, '#set_living_at' do
-    it 'adds a living cell to the world' do
-      world = World.empty
-      location = double(:location)
-      world.set_living_at(location)
-      expect(world.alive_at?(location)).to be true
+  describe World, '#set_coordinate' do
+    let(:world) { World.empty }
+    let(:location) { double(:location) }
+
+    subject { world.set_coordinate(location, options) }
+
+    context 'when options[:alive] == true' do
+      let(:options) { { alive: true } }
+      it { should be_alive_at(location) }
     end
   end
 
   describe World, '#empty?' do
-    context 'when no living cells are in it' do
-      it 'returns true' do
-        world = World.empty
-        expect(world.empty?).to be true
-      end
-    end
-
     context 'when living cells are added to it' do
       it 'returns false' do
         world = World.empty
         location = double(:location)
-        world.set_living_at(location)
+        world.set_coordinate(location)
         expect(world.empty?).to be false
       end
     end
