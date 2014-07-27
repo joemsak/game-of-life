@@ -1,5 +1,6 @@
 require 'spec_helper'
 
+require 'game_of_life/cell'
 require 'game_of_life/location'
 
 def in_bounds_coords
