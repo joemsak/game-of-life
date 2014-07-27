@@ -118,13 +118,13 @@ module GameOfLife
 
     subject { cell.comes_to_life?(count) }
 
-    context 'when the count is 3' do
+    context 'when the neighbor count is 3' do
       let(:count) { 3 }
       it { should be true }
     end
 
     [0, 1, 2, 4, 5, 6, 7, 8].each do |count|
-      context "when the count is #{count}" do
+      context "when the neighbor count is #{count}" do
         let(:count) { count }
         it { should be false }
       end
