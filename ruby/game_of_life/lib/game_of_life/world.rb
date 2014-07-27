@@ -16,7 +16,8 @@ module GameOfLife
 
     def tick
       locations.each do |location|
-        location.evolve
+        alive_count = alive_count(location)
+        location.evolve(alive_count)
       end
       self
     end
@@ -30,8 +31,8 @@ module GameOfLife
       self
     end
 
-    def alive_at?(location)
-      location.has_life?
+    def alive_count(location)
+      locations.count { |loc| loc.living_neighbor?(location) }
     end
   end
 end
