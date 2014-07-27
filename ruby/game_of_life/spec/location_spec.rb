@@ -4,16 +4,36 @@ require 'game_of_life/location'
 
 module GameOfLife
   describe Location, '#living_neighbor?' do
-    let(:location) { Location.create(x: 1, y: 1) }
+    context 'when the location coordinates are {:x=>1, :y=>1}' do
+      let(:location) { Location.create(x: 1, y: 1) }
+      let(:other) { Location.create(attrs) }
 
-    subject { other.living_neighbor?(location) }
+      subject { location.living_neighbor?(other) }
 
-    [{ x: 0, y: 2 }, { x: 1, y: 2 }, { x: 2, y: 2 },
-     { x: 0, y: 1 },                 { x: 2, y: 1 },
-     { x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 0 }].each do |attrs|
-      context "when the other's cooridinates are #{attrs}" do
-        let(:other) { Location.create(attrs) }
-        it { should be true }
+      context 'and the other is the same location' do
+        subject { location.living_neighbor?(location) }
+        it { should be false }
+      end
+
+      context 'and the other somehow has the same coordinates' do
+        let(:attrs) { { x: 1, y: 1, life: true } }
+        it { should be false }
+      end
+
+      [{ x: 0, y: 2 }, { x: 1, y: 2 }, { x: 2, y: 2 },
+       { x: 0, y: 1 },                 { x: 2, y: 1 },
+       { x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 0 }].each do |coords|
+        context "and the other's cooridinates are #{coords}" do
+          context 'and the other has life' do
+            let(:attrs) { coords.merge(life: true) }
+            it { should be true }
+          end
+
+          context 'and the other has no life' do
+            let(:attrs) { coords }
+            it { should be false }
+          end
+        end
       end
     end
   end

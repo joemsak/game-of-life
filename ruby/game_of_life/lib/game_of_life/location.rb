@@ -33,8 +33,10 @@ module GameOfLife
     end
 
     def living_neighbor?(other)
-      [x - 1, x, x + 1].include?(other.x) &&
-        [y - 1, y, y + 1].include?(other.y)
+      other.has_life? &&
+        [x, y] != [other.x, other.y] &&
+          [x - 1, x, x + 1].include?(other.x) &&
+            [y - 1, y, y + 1].include?(other.y)
     end
   end
 
