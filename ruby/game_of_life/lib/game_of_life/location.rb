@@ -12,6 +12,17 @@ module GameOfLife
       location
     end
 
+    def evolve(neighbor_count)
+      if cell.alive? && cell.stays_alive?(neighbor_count)
+        self.cell = cell
+      elsif !cell.alive? && cell.comes_to_life?(neighbor_count)
+        self.cell = LivingCell.new
+      else
+        self.cell = DeadCell.new
+      end
+      self
+    end
+
     def has_life?
       cell.alive?
     end
