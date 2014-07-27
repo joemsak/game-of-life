@@ -1,3 +1,6 @@
+require 'game_of_life/cell/living_cell'
+require 'game_of_life/cell/dead_cell'
+
 module GameOfLife
   class Cell
     attr_reader :type
@@ -31,31 +34,6 @@ module GameOfLife
 
     def new_dead_cell
       DeadCell.new
-    end
-  end
-
-  class DeadCell
-    FERTILE_POPULATION = 3
-
-    def alive?
-      false
-    end
-
-    def comes_to_life?(neighbor_count)
-      neighbor_count == FERTILE_POPULATION
-    end
-  end
-
-  class LivingCell
-    MIN_POPULATION = 2
-    MAX_POPULATION = 3
-
-    def alive?
-      true
-    end
-
-    def stays_alive?(neighbor_count)
-      (MIN_POPULATION..MAX_POPULATION).include?(neighbor_count)
     end
   end
 end
