@@ -47,6 +47,17 @@ module GameOfLife
         world.set_coordinate(location)
         expect(world.locations.count).to be 1
       end
+
+      context 'and the location is in the collection' do
+        it 'replaces the existing element in the collection' do
+          location = double(:location)
+          world.locations = [location]
+
+          expect(world.locations).to receive(:[]=).with(0, location)
+
+          world.set_coordinate(location)
+        end
+      end
     end
   end
 

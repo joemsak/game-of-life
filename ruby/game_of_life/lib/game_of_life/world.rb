@@ -27,7 +27,11 @@ module GameOfLife
     end
 
     def set_coordinate(location)
-      locations << location
+      if index = locations.index(location)
+        locations[index] = location
+      else
+        locations << location
+      end
       self
     end
 
