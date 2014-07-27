@@ -13,15 +13,15 @@ module GameOfLife
     let(:world) { World.empty }
     let(:location) { double(:location) }
 
-    subject { world.locations.count }
-
     it 'returns the instance' do
       expect(world.set_coordinate(location)).to be world
     end
 
     context 'when a location is added' do
-      before { world.set_coordinate(location) }
-      it { should == 1 }
+      it "adds to the locations collection" do
+        world.set_coordinate(location)
+        expect(world.locations.count).to be 1
+      end
     end
   end
 
