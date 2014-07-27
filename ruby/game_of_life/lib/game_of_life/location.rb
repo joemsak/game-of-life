@@ -1,11 +1,19 @@
 module GameOfLife
   class Location
-    def self.create(options)
-      if options[:alive]
-        LivingCell.create(options)
+    attr_accessor :cell
+
+    def self.create(options, attrs = {})
+      location = new
+      location.cell = if options[:alive]
+        LivingCell.create(attrs)
       else
-        DeadCell.create(options)
+        DeadCell.create(attrs)
       end
+      location
+    end
+
+    def has_life?
+      cell.alive?
     end
   end
 
@@ -40,6 +48,10 @@ module GameOfLife
 
     FERTILE_POPULATION = 3
 
+    def alive?
+      false
+    end
+
     def comes_to_life?(neighbor_count)
       neighbor_count == FERTILE_POPULATION
     end
@@ -49,10 +61,12 @@ module GameOfLife
     include HasLocation
     include CreatesWithAttributes
 
-    attr_accessor :alive
-
     MIN_POPULATION = 2
     MAX_POPULATION = 3
+
+    def alive?
+      true
+    end
 
     def stays_alive?(neighbor_count)
       (MIN_POPULATION..MAX_POPULATION).include?(neighbor_count)

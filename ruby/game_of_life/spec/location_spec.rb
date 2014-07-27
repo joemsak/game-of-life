@@ -3,6 +3,22 @@ require 'spec_helper'
 require 'game_of_life/location'
 
 module GameOfLife
+  describe Location, '#has_life?' do
+    let(:location) { Location.create(options) }
+
+    subject { location.has_life? }
+
+    context 'when the cell is alive' do
+      let(:options) { { alive: true } }
+      it { should be true }
+    end
+
+    context 'when the cell is dead' do
+      let(:options) { {} }
+      it { should be false }
+    end
+  end
+
   describe LivingCell, '#stays_alive?' do
     let(:cell) { LivingCell.create(location: double(:location)) }
 
