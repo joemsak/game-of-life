@@ -2,6 +2,20 @@ require 'spec_helper'
 
 require 'game_of_life/location'
 
+def in_bounds_coords
+  [{ x: 0, y: 2 }, { x: 1, y: 2 }, { x: 2, y: 2 },
+   { x: 0, y: 1 },                 { x: 2, y: 1 },
+   { x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 0 }]
+end
+
+def out_of_bounds_coords
+  [{ x: -1, y: 3 }, { x: 0, y: 3 }, { x: 1, y: 3 }, { x: 2, y: 3 }, { x: 3, y: 3 },
+   { x: -1, y: 2 },                                                 { x: 3, y: 2 },
+   { x: -1, y: 1 },                                                 { x: 3, y: 1 },
+   { x: -1, y: 0 },                                                 { x: 3, y: 0 },
+   { x: -1, y: -1 }, { x: 0, y: -1 }, { x: 1, y: -1 }, { x: 2, y: -1 }, { x: 3, y: -1 }]
+end
+
 module GameOfLife
   describe Location, '#living_neighbor?' do
     context 'when the location coordinates are {:x=>1, :y=>1}' do
@@ -20,9 +34,7 @@ module GameOfLife
         it { should be false }
       end
 
-      [{ x: 0, y: 2 }, { x: 1, y: 2 }, { x: 2, y: 2 },
-       { x: 0, y: 1 },                 { x: 2, y: 1 },
-       { x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 0 }].each do |coords|
+      in_bounds_coords.each do |coords|
         context "and the other's cooridinates are #{coords}" do
           context 'and the other has life' do
             let(:attrs) { coords.merge(life: true) }
@@ -33,6 +45,13 @@ module GameOfLife
             let(:attrs) { coords }
             it { should be false }
           end
+        end
+      end
+
+      out_of_bounds_coords.each do |coords|
+        context "and the other has life out of bounds at #{coords}" do
+          let(:attrs) { coords.merge(life: true) }
+          it { should be false }
         end
       end
     end
