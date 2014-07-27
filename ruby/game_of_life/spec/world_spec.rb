@@ -13,6 +13,27 @@ module GameOfLife
     it { should_not be_empty }
   end
 
+  describe World, '#tick' do
+    it "returns the instance" do
+      world = World.empty
+      expect(world.tick).to be world
+    end
+
+    it "tells each location to evolve" do
+      world = World.seed(double(:location))
+      world.locations.each { |location| expect(location).to receive(:evolve) }
+      world.tick
+    end
+
+    it "updates each location in the collection" do
+      world = World.seed(double.as_null_object)
+      world.locations.each do |location|
+        expect(world).to receive(:set_coordinate).with(location)
+      end
+      world.tick
+    end
+  end
+
   describe World, '#set_coordinate' do
     let(:world) { World.empty }
     let(:location) { double(:location) }

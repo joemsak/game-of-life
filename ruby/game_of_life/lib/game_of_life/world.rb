@@ -14,6 +14,14 @@ module GameOfLife
       world
     end
 
+    def tick
+      locations.each do |location|
+        location.evolve
+        set_coordinate(location)
+      end
+      self
+    end
+
     def empty?
       locations.count == 0
     end
