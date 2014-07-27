@@ -4,7 +4,7 @@ module GameOfLife
 
     def self.create(options, attrs = {})
       location = new
-      location.cell = if options[:alive]
+      location.cell = if options[:life]
         LivingCell.create(attrs)
       else
         DeadCell.create(attrs)

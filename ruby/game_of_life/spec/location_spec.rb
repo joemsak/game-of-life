@@ -8,19 +8,19 @@ module GameOfLife
 
     subject { location.has_life? }
 
-    context 'when the cell is alive' do
-      let(:options) { { alive: true } }
+    context 'when the life was created' do
+      let(:options) { { life: true } }
       it { should be true }
     end
 
-    context 'when the cell is dead' do
+    context 'when locations are created without options' do
       let(:options) { {} }
       it { should be false }
     end
   end
 
   describe LivingCell, '#stays_alive?' do
-    let(:cell) { LivingCell.create(location: double(:location)) }
+    let(:cell) { LivingCell.create }
 
     subject { cell.stays_alive?(count) }
 
@@ -40,7 +40,7 @@ module GameOfLife
   end
 
   describe DeadCell, '#comes_to_life?' do
-    let(:cell) { DeadCell.create(location: double(:location)) }
+    let(:cell) { DeadCell.create }
 
     subject { cell.comes_to_life?(count) }
 
