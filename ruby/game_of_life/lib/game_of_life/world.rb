@@ -2,6 +2,12 @@ module GameOfLife
   class World
     attr_accessor :locations
 
+    def self.seed(location)
+      world = new
+      world.locations = [location]
+      world
+    end
+
     def self.empty
       world = new
       world.locations = []

@@ -9,6 +9,11 @@ module GameOfLife
     it { should be_empty }
   end
 
+  describe World, '.seed' do
+    subject { World.seed(double.as_null_object) }
+    it { should_not be_empty }
+  end
+
   describe World, '#set_coordinate' do
     let(:world) { World.empty }
     let(:location) { double(:location) }
