@@ -9,22 +9,12 @@ module GameOfLife
 
     def self.create(attrs)
       location = new(attrs[:x], attrs[:y])
-      location.cell = if attrs[:life]
-        LivingCell.new
-      else
-        DeadCell.new
-      end
+      location.cell = Cell.new(attrs)
       location
     end
 
     def evolve(neighbor_count)
-      if cell.alive? && cell.stays_alive?(neighbor_count)
-        self.cell = cell
-      elsif !cell.alive? && cell.comes_to_life?(neighbor_count)
-        self.cell = LivingCell.new
-      else
-        self.cell = DeadCell.new
-      end
+      self.cell = cell.next_generation(neighbor_count)
       self
     end
 
@@ -37,6 +27,41 @@ module GameOfLife
         [x, y] != [other.x, other.y] &&
           [x - 1, x, x + 1].include?(other.x) &&
             [y - 1, y, y + 1].include?(other.y)
+    end
+  end
+
+  class Cell
+    attr_reader :type
+
+    def initialize(attrs)
+      if attrs[:life]
+        @type = new_living_cell
+      else
+        @type = new_dead_cell
+      end
+    end
+
+    def next_generation(neighbor_count)
+      if alive? && type.stays_alive?(neighbor_count)
+        @type = type
+      elsif !alive? && type.comes_to_life?(neighbor_count)
+        @type = new_living_cell
+      else
+        @type = new_dead_cell
+      end
+      self
+    end
+
+    def alive?
+      type.alive?
+    end
+
+    def new_living_cell
+      LivingCell.new
+    end
+
+    def new_dead_cell
+      DeadCell.new
     end
   end
 

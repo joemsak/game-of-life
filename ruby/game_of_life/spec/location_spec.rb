@@ -58,10 +58,10 @@ module GameOfLife
   end
 
   describe Location, '#evolve' do
-    let(:options) { {} }
+    let(:attrs) { {} }
     let(:neighbor_count) { double(Integer) }
 
-    subject(:location) { Location.create(options) }
+    subject(:location) { Location.create(attrs) }
 
     before { location.evolve(neighbor_count) }
 
@@ -70,7 +70,7 @@ module GameOfLife
     end
 
     context 'when the location has life' do
-      let(:options) { { life: true } }
+      let(:attrs) { { life: true } }
 
       context 'and the cell is staying alive' do
         let(:neighbor_count) { LivingCell::MAX_POPULATION }
@@ -97,17 +97,17 @@ module GameOfLife
   end
 
   describe Location, '#has_life?' do
-    let(:location) { Location.create(options) }
+    let(:location) { Location.create(attrs) }
 
     subject { location.has_life? }
 
     context 'when the life was created' do
-      let(:options) { { life: true } }
+      let(:attrs) { { life: true } }
       it { should be true }
     end
 
-    context 'when locations are created without options' do
-      let(:options) { {} }
+    context 'when locations are created without attrs' do
+      let(:attrs) { {} }
       it { should be false }
     end
   end
