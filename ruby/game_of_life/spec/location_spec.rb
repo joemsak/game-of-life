@@ -20,7 +20,7 @@ module GameOfLife
   end
 
   describe LivingCell, '#stays_alive?' do
-    let(:cell) { LivingCell.create }
+    let(:cell) { LivingCell.new }
 
     subject { cell.stays_alive?(count) }
 
@@ -40,7 +40,7 @@ module GameOfLife
   end
 
   describe DeadCell, '#comes_to_life?' do
-    let(:cell) { DeadCell.create }
+    let(:cell) { DeadCell.new }
 
     subject { cell.comes_to_life?(count) }
 
